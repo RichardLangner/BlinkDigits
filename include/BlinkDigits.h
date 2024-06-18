@@ -3,15 +3,8 @@ Blink (up to) a 5 digit number on a single LED. 500ms gap between each digit.
 Repeats after 3000ms. Returns 'true' when it completes a group of digits.
 The blink 'on' and 'off' period is 200ms each. A zero is 1000ms 'on'.
 Interdigit gap is defined by a negative number of ms.
-
-You can set enable to true/false to start/stop the flasher:
-    flasher1.enabled(true);
-    flasher1.enabled(false);
-
-To check if enabled:
-    if(flasher1.enabled()){...}
     
-Written by Richard Langner, Sheffield Hackspace, UK 27 May 2023.
+Written by Richard Langner, Sheffield Hackspace, UK 18 June 2024.
 Latest code and examples on github.com/RichardLangner/SimpleTimer
 */
 #ifndef FLASHNUMBER
@@ -27,7 +20,7 @@ class BlinkDigits
 private:
 // bool    _enabled=true;
 int     _LED_pin = LED_BUILTIN, _LED_on = LOW;  // Defaults
-int ms = 10, flashCounter =0, arrayIndex=0, offset=0;
+int ms = 10, blinkCounter =0, arrayIndex=0, offset=0;
 int array[11] = {-500,0,-500,0,-500,0,-500,0,-500,0,-2500};
 
 unsigned long _setMillis=0, _prevMillis = 0;
@@ -46,7 +39,9 @@ bool done(unsigned long msecs, int cycles=0){
 public:
 virtual ~ BlinkDigits(){}
 
-    bool blink(int num, int width=0){
+    bool blink(int pin, bool activeLevel, int num, int width=0){
+        _LED_pin = pin;
+        _LED_on = activeLevel;
         // Return if nothing to do; starts timer if not already running.
         if (!done(ms, 0)){return false;}
         // Validate arguments
@@ -68,9 +63,9 @@ virtual ~ BlinkDigits(){}
             ms = -array[arrayIndex];              // Make gap value positive
         }
         else{
-            // Change the LED state; if flashCounter is 'even' turn off LED
-            flashCounter++; 
-            digitalWrite(_LED_pin, flashCounter %2 ? _LED_on : !_LED_on);  // Odd count = on
+            // Change the LED state; if blinkCounter is 'even' turn off LED
+            blinkCounter++; 
+            digitalWrite(_LED_pin, blinkCounter %2 ? _LED_on : !_LED_on);  // Odd count = on
 
             // If the digit value is zero
             if(0 == array[arrayIndex]){
@@ -79,21 +74,14 @@ virtual ~ BlinkDigits(){}
             }
 
             // Digit value is non-zero. Either do more flashes, or get next digit
-            if(flashCounter < array[arrayIndex] *2 ){
+            if(blinkCounter < array[arrayIndex] *2 ){
                 ms = 200; 
                 return false;
             }
         }
         // Get next digit
-        flashCounter = 0; ++arrayIndex %=11;
+        blinkCounter = 0; ++arrayIndex %=11;
         return(arrayIndex==0);
     }
-
-/** @param LED_pin the LED pin number
-    @param level logic level to turn on the LED **/
-    void setup(int LED_pin = D4, int led_on = LOW){
-        _LED_pin=LED_pin; _LED_on=led_on;
-    }
-
 };
 #endif
