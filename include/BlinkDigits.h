@@ -1,7 +1,7 @@
 /* 
 Blink (up to) a 5 digit number on a single LED. 500ms gap between each digit.
 Repeats after 3000ms. Returns 'true' when it completes a group of digits.
-The flash 'on' and 'off' period is 200ms each. A zero is 1000ms 'on'.
+The blink 'on' and 'off' period is 200ms each. A zero is 1000ms 'on'.
 Interdigit gap is defined by a negative number of ms.
 
 You can set enable to true/false to start/stop the flasher:
@@ -17,27 +17,36 @@ Latest code and examples on github.com/RichardLangner/SimpleTimer
 #ifndef FLASHNUMBER
 #define FLASHNUMBER
 #include <Arduino.h>
-#include "SimpleTimer.h"
 
 /** @return - true if all the digits have been flashed.
-*	@param num number to flash, max 99999.
-*	@param width (opional) number of digit places to flash. If not specified, or zero, means with no leading zeros.
+*	@param num number to blink, max 99999.
+*	@param width (opional) number of digit places to blink. If not specified, or zero, means with no leading zeros.
 */
 class BlinkDigits
 {
 private:
-bool    _enabled=true;
+// bool    _enabled=true;
 int     _LED_pin = LED_BUILTIN, _LED_on = LOW;  // Defaults
-// SimpleTimer timer1;
 int ms = 10, flashCounter =0, arrayIndex=0, offset=0;
 int array[11] = {-500,0,-500,0,-500,0,-500,0,-500,0,-2500};
+
+unsigned long _setMillis=0, _prevMillis = 0;
+bool firstRun=true;
+bool timedOut(unsigned long u){_setMillis=u; return (millis() - _prevMillis >= _setMillis);}
+void _start(unsigned long u){_setMillis=u; _prevMillis=millis();}
+bool done(unsigned long msecs, int cycles=0){
+	// if(!_enabled){return false;}				// Not valid timeOut
+	if(!timedOut(msecs)){return false;}				// Not valid timeOut
+	_start(msecs); return true;	// Auto restart
+	if(firstRun){_start(msecs); firstRun=false; return false;}
+	firstRun=true;								// Sleep now ...
+	return false;
+}
 
 public:
 virtual ~ BlinkDigits(){}
 
-    bool flash(int num, int width=0){
-        // Exit if disabled
-        if(!_enabled){return false;}
+    bool blink(int num, int width=0){
         // Return if nothing to do; starts timer if not already running.
         if (!done(ms, 0)){return false;}
         // Validate arguments
@@ -80,35 +89,11 @@ virtual ~ BlinkDigits(){}
         return(arrayIndex==0);
     }
 
-/**	@return 'true' if the flasher is enabled */
-    bool enabled(){return _enabled;}
-
-/** @param enabled 'true' enables, 'false' disables the flasher */   
-    void enabled(bool enabled){_enabled=enabled;}
-
 /** @param LED_pin the LED pin number
     @param level logic level to turn on the LED **/
     void setup(int LED_pin = D4, int led_on = LOW){
         _LED_pin=LED_pin; _LED_on=led_on;
     }
 
-unsigned long _setMillis=0, _prevMillis = 0;
-bool firstRun=true;
-int  _eventCount;
-
-bool timedOut(unsigned long u){_setMillis=u; return (millis() - _prevMillis >= _setMillis);}
-
-void _start(unsigned long u){_setMillis=u; _prevMillis=millis();}
-
-bool done(unsigned long msecs, int cycles=0){
-	if(!_enabled){return false;}				// Not valid timeOut
-	if(!timedOut(msecs)){return false;}				// Not valid timeOut
-	if(cycles==0){_start(msecs);return true;}	// Auto restart
-	if(firstRun){_start(msecs); firstRun=false; return false;}
-	if(cycles > _eventCount++ ){_start(msecs);return true;}	// Valid timeOut
-	_enabled=false;	
-	firstRun=true;								// Sleep now ...
-	return false;
-}
 };
 #endif
