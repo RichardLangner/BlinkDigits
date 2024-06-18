@@ -28,7 +28,7 @@ BlinkDigits flasher1;               // Create an instance of a flasher object
 BlinkDigits flasher2;               // Create a second instance
 
 int ledPin = D4;                    // Wemos D1 mini LED pin, active LOW
-int counter1=0, counter2=0;           // How many time the complete number flashes
+int counter1=302 ;           // How many time the complete number flashes
 
 void setup() {
 	Serial.begin(74880);            // Wemos D1 mini default baud rate
@@ -44,16 +44,9 @@ void setup() {
 void loop() {
     if(flasher1.flash(counter1)){
         Serial.printf("Flasher1 has just flashed %d\n", counter1++ );
-        if(counter1 >11){
-            flasher1.enabled(false);
-            Serial.printf( "Flasher1 enabled = %s\n", (flasher1.enabled() ? "Yeh": "Nope"));
-            }
-    };
-    if(flasher2.flash(counter2)){
-        Serial.printf("Flasher2 has just flashed             %d\n", (counter2 +=2) );
-        if(counter2 >30){
-            flasher2.enabled(false);
-            Serial.printf( "Flasher2 enabled = %s\n", (flasher2.enabled() ? "Yeh": "Nope"));
-            }
+        // if(counter1 >11){
+        //     flasher1.enabled(false);
+        //     Serial.printf( "Flasher1 enabled = %s\n", (flasher1.enabled() ? "Yeh": "Nope"));
+        //     }
     };
 }

@@ -28,7 +28,7 @@ class BlinkDigits
 private:
 bool    _enabled=true;
 int     _LED_pin = LED_BUILTIN, _LED_on = LOW;  // Defaults
-SimpleTimer timer1;
+// SimpleTimer timer1;
 int ms = 10, flashCounter =0, arrayIndex=0, offset=0;
 int array[11] = {-500,0,-500,0,-500,0,-500,0,-500,0,-2500};
 
@@ -39,7 +39,7 @@ virtual ~ BlinkDigits(){}
         // Exit if disabled
         if(!_enabled){return false;}
         // Return if nothing to do; starts timer if not already running.
-        if (!timer1.done(ms, 0)){return false;}
+        if (!done(ms, 0)){return false;}
         // Validate arguments
         if(num <0 or width <0 or width >5) {return false;}
 
@@ -90,6 +90,25 @@ virtual ~ BlinkDigits(){}
     @param level logic level to turn on the LED **/
     void setup(int LED_pin = D4, int led_on = LOW){
         _LED_pin=LED_pin; _LED_on=led_on;
-    }   
+    }
+
+unsigned long _setMillis=0, _prevMillis = 0;
+bool firstRun=true;
+int  _eventCount;
+
+bool timedOut(unsigned long u){_setMillis=u; return (millis() - _prevMillis >= _setMillis);}
+
+void _start(unsigned long u){_setMillis=u; _prevMillis=millis();}
+
+bool done(unsigned long msecs, int cycles=0){
+	if(!_enabled){return false;}				// Not valid timeOut
+	if(!timedOut(msecs)){return false;}				// Not valid timeOut
+	if(cycles==0){_start(msecs);return true;}	// Auto restart
+	if(firstRun){_start(msecs); firstRun=false; return false;}
+	if(cycles > _eventCount++ ){_start(msecs);return true;}	// Valid timeOut
+	_enabled=false;	
+	firstRun=true;								// Sleep now ...
+	return false;
+}
 };
 #endif
