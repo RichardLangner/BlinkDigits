@@ -1,39 +1,48 @@
+# 'BlinkDigits' by Richard Langner
+## Bink out numbers on a single LED.
 
-This directory is intended for project header files.
+BlinkDigits can blink an LED to display any number from 0 to 99999.<br>
+aEach digit of the number is represented by a number of flashes, 
+e.g. 3 is flashed briefly three times, 9 flashes briefly nine times, and a 0 is represented by a long flash.<br><br>
+After each digit there is a brief pause before the next digit is flashed.<br>
+When all digits in your number have been flashed, there is a longer pause, and then it all repeats.<br>
+Each time a number is completed, the function returns true.<br>
+## How to use FlashDigits
+Include the header file in your program :<br>
+`#include "FlashDigits.h"`<br><br>
+Create a BlinkDigits object :<br>
+`BlinkDigits flasher1;`<br><br>
+In your loop() add the code :<br>
+`flasher1.blink ( ledPin, LOW, myNumber )`,<br>
+where ledPin is the pin number of the LED ( or use LED_BUILTIN ), LOW ( or HIGH ) to define the level required to turn on the LED, and lastly the number you want to blink (0-99999).<br>
+BlinkDigits returns 'true' when all the digits have been flashed.<br>
+## Example code
+Here is an example which blinks out 23.<br>
 
-A header file is a file containing C declarations and macro definitions
-to be shared between several project source files. You request the use of a
-header file in your project source file (C, C++, etc) located in `src` folder
-by including it, with the C preprocessing directive `#include'.
+`#include "BlinkDigits.h"`<br>
+`BlinkDigits flasher1;`<br>
+`int ledPin = D4;`<br>
 
-```src/main.c
+`int myNumber=23;`<br>
 
-#include "header.h"
+`void setup() {`<br>
+`	pinMode(ledPin, OUTPUT);`<br>
+`}`<br>
 
-int main (void)
-{
- ...
-}
-```
+`void loop() {`<br>
+`    flasher1.blink(ledPin, LOW, myNumber);`<br>
+`}`<br>
 
-Including a header file produces the same results as copying the header file
-into each source file that needs it. Such copying would be time-consuming
-and error-prone. With a header file, the related declarations appear
-in only one place. If they need to be changed, they can be changed in one
-place, and programs that include the header file will automatically use the
-new version when next recompiled. The header file eliminates the labor of
-finding and changing all the copies as well as the risk that a failure to
-find one copy will result in inconsistencies within a program.
+If you want to blink out leading zeros, for example 023, simply state the number of places you want - using the 'width' parameter - in this case 3.
 
-In C, the usual convention is to give header files names that end with `.h'.
-It is most portable to use only letters, digits, dashes, and underscores in
-header file names, and at most one dot.
-
-Read more about using header files in official GCC documentation:
-
-* Include Syntax
-* Include Operation
-* Once-Only Headers
-* Computed Includes
-
-https://gcc.gnu.org/onlinedocs/cpp/Header-Files.html
+`flasher1.blink(ledPin, LOW, myNumber,3);`<br><br>
+There is better example in 'main.cpp' which also write to Serial.
+## All timings are adjustable.
+ Here we slow things right down.<br>
+`flasher1.config(400,1500,800, 5000); // slower timings.`<br>
+You specify the four parameters : on/off digit flash time, the zero time, the delay between digits, and the delay before repeating the number.<br>
+Defaults are 200,1000,500, 3000.
+## How can BlinkDigits improve my project?
+- Use as a heartbeat LED which gives the status of the program.<br>
+- When connected to wifi, blink out the last 3 digits of the IP address, so you know where to find your device on the network.<br>
+- Indicate an analog reading.

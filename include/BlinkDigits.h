@@ -12,8 +12,10 @@
  */
 
 /** @return - true if all the digits have been flashed.
- *  @param number_to_blink number to blink, 5 digits, max 99999.
+ *  @param number_to_blink number to blink, up to 5 digits, max 99999.
  *  @param width (optional) number of digit places to blink. If not specified, or zero, means with no leading zeros.
+ *  @brief Displays a number 0-99999 by blinking a LED for each digit in turn. 
+ *  Written by Richard Langner
  */
 class BlinkDigits
 {
@@ -48,7 +50,8 @@ public:
     virtual ~BlinkDigits() {}
 
 /** 
- *  Sets the on/off times of the blinking LED in milliseconds (default)
+ *  Sets the on/off times of the blinking LED in milliseconds (default ms in brackets). 
+ *  Written by Richard Langner
  *  @param blink on/off time for the blink (200)
  *  @param zero on time for the zero (1000)
  *  @param interdigit time between digits (500)
@@ -62,13 +65,13 @@ public:
     }
 
 /** 
- *  Sets the on/off times of the blinking LED in milliseconds (default)
- *  Blinks out a number up to 99999
+ *  @brief Blinks out a number up to 99999. Leading zeros are supressed by default. 
+ *  @brief To show leading zeros set the width as required. 
  *  @param LED_pin the LED pin to blink
  *  @param active_Level HIGH or LOW to turn on LED
  *  @param number_to_blink between 0 and 99999
- *  @param width (optional) force number of digits to blink, ideal for leading zeros.
- *  @param width If width = 0 it will not blink leading zeros.
+ *  @param width (optional 0 to 5) force number of digits displayed, 
+ *   if omitted or 0 it will not display leading zeros
  */
     bool blink(int LED_pin, bool active_Level, int number_to_blink, int width = 0) {
         if (number_to_blink > 99999 || number_to_blink < 0) {
