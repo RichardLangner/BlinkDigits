@@ -23,17 +23,18 @@ Latest code and examples on github.com/RichardLangner/SimpleTimer
 BlinkDigits flasher1;               // Create an instance of a flasher object
 
 int ledPin = D4;                    // Wemos D1 mini LED pin, active LOW
-int count1=302 ;           // How many time the complete number flashes
+int count1=91302 ;           // How many time the complete number flashes
 
 void setup() {
 	Serial.begin(74880);            // Wemos D1 mini default baud rate
 	pinMode(ledPin, OUTPUT);        // Set LED pin to be an output
     digitalWrite(ledPin, HIGH);     // LED is active LOW
     delay(3000);                    // Not required
+    // flasher1.config(200,1000,500, 3000);
 }
 
 void loop() {
-    if(flasher1.blink(ledPin, LOW, count1,5)){
+    if(flasher1.blink(ledPin, LOW, count1,0)){
         Serial.printf("Flasher1 has just flashed %d\n", count1++ );
     };
 }
