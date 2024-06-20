@@ -69,7 +69,7 @@ public:
  *  @brief To show leading zeros set the width as required. 
  *  @param LED_pin the LED pin to blink
  *  @param active_Level HIGH or LOW to turn on LED
- *  @param number_to_blink between 0 and 99999
+ *  @param number_to_blink integer between 0 and 99999
  *  @param width (optional 0 to 5) force number of digits displayed, 
  *   if omitted or 0 it will not display leading zeros
  */
