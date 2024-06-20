@@ -15,7 +15,7 @@ int array[] = {22, 51};             // You can have any size of array of integer
 int pointer=0;                      // Points to an array element
 
 void setup() {
-	pinMode(ledPin, OUTPUT);          // Set LED pin to be an output
+	pinMode(ledPin, OUTPUT);        // Set LED pin to be an output
 }
 
 void loop() {
