@@ -1,48 +1,59 @@
 # 'BlinkDigits' by Richard Langner
 ## Bink out numbers on a single LED.
 
-BlinkDigits can blink an LED to display any number from 0 to 99999.<br>
-aEach digit of the number is represented by a number of flashes, 
-e.g. 3 is flashed briefly three times, 9 flashes briefly nine times, and a 0 is represented by a long flash.<br><br>
+Display any number from 0 to 99999. For example
+
+- **3** is represented by briefly flashing three times, <br>
+- **9** is represented by briefly flashing nine times, <br>
+- **0** is represented by a long flash.<br><br>
 After each digit there is a brief pause before the next digit is flashed.<br>
-When all digits in your number have been flashed, there is a longer pause, and then it all repeats.<br>
-Each time a number is completed, the function returns true.<br>
+When all digits in your number have been flashed, there is a longer pause, and then it all repeats.
+## How can BlinkDigits improve my project?
+- Use as a heartbeat LED to indicate the status of the program.
+- Indicate an analog reading
+- Indicate a digital counter
+- When connected to wifi, blink out the last 3 digits of the IP address, so you know where to find your device on your network.
+
 ## How to use FlashDigits
-Include the header file in your program :<br>
-`#include "FlashDigits.h"`<br><br>
-Create a BlinkDigits object :<br>
-`BlinkDigits flasher1;`<br><br>
-In your loop() add the code :<br>
-`flasher1.blink ( ledPin, LOW, myNumber )`,<br>
-where ledPin is the pin number of the LED ( or use LED_BUILTIN ), LOW ( or HIGH ) to define the level required to turn on the LED, and lastly the number you want to blink (0-99999).<br>
-BlinkDigits returns 'true' when all the digits have been flashed.<br>
+
+
+
+In your loop() add the BlinkDigits function, for example :<br>
+`flasher1.blink ( D4, LOW, 1883 )`<br>
+- **D4** is the pin number of the LED ( or use LED_BUILTIN ) <br>
+- **LOW**  is set to define the level required to turn on the LED, ( use HIGH or LOW )<br>
+- **1883** is the number you want to blink ( in the range of 0-99999 ).<br><br>
+BlinkDigits returns 'true' when all the digits have been flashed. See **examples** for why this is useful.<br><br>
+**Note** : BlinkDigits is non-blocking code, and does not use interrupts. Please ensure your code does not use blocking delays in loop() as this will mess up the blink timing.
+
 ## Example code
-Here is an example which blinks out 23.<br>
+Here is a simple example which uses one line of code to blink out 23.<br>
 
-`#include "BlinkDigits.h"`<br>
-`BlinkDigits flasher1;`<br>
-`int ledPin = D4;`<br>
+```
+#include "BlinkDigits.h"
+BlinkDigits flasher1;
+int ledPin = D4;
+int myNumber=23;
 
-`int myNumber=23;`<br>
+void setup() {
+	pinMode(ledPin, OUTPUT);`
+}
 
-`void setup() {`<br>
-`	pinMode(ledPin, OUTPUT);`<br>
-`}`<br>
-
-`void loop() {`<br>
-`    flasher1.blink(ledPin, LOW, myNumber);`<br>
-`}`<br>
-
+void loop() {
+    flasher1.blink(ledPin, LOW, myNumber);
+}
+```
+Check the **examples** folder for a variety of uses.
+### Leading zeros
 If you want to blink out leading zeros, for example 023, simply state the number of places you want - using the 'width' parameter - in this case 3.
 
-`flasher1.blink(ledPin, LOW, myNumber,3);`<br><br>
-There is better example in 'main.cpp' which also write to Serial.
+`flasher1.blink(ledPin, LOW, myNumber,3);`<br>
 ## All timings are adjustable.
+ Blinking too fast for you to read? <br>
  Here we slow things right down.<br>
 `flasher1.config(400,1500,800, 5000); // slower timings.`<br>
-You specify the four parameters : on/off digit flash time, the zero time, the delay between digits, and the delay before repeating the number.<br>
-Defaults are 200,1000,500, 3000.
-## How can BlinkDigits improve my project?
-- Use as a heartbeat LED which gives the status of the program.<br>
-- When connected to wifi, blink out the last 3 digits of the IP address, so you know where to find your device on the network.<br>
-- Indicate an analog reading.
+- &nbsp;400 : the on/off digit flash time,<br>
+- 1500 : the zero digit's on time<br>
+- &nbsp;800 : the delay between digits<br>
+- 5000 : the delay before repeating the number.<br>
+- Defaults are 200, 1000, 500, 3000.
