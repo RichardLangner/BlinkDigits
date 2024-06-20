@@ -1,0 +1,27 @@
+{
+  "name": "BlinkDigits",
+  "version": "1.0.0",
+  "description": "Display any number from 0 to 99999 using a single LED, and even arrays of numbers such as an IP address. For example 390 is blinked as 3 brief flashes, 9 brief flashes, 0 (one long flash). Use as a heartbeat LED to indicate the status of the program, or to indicate an analog reading, or to indicate a digital count.  When connected to wifi, you can blink out part (or all) of the IP address, so you know where to find your device on the network. Several simple examples using the LED_ONBOARD will help you play without setting up hardware. See the README.md file for useful tips",
+  "keywords": [
+    "Flash",
+    "Blink",
+    "IP address"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RichardLangner/BlinkDigits.git"
+  },
+  "authors": [
+    {
+      "name": "Richard Langner"
+    }
+  ],
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": [
+    "atmelavr",
+    "espressif8266",
+    "atmelmegaavr",
+    "teensy"
+  ]
+}
