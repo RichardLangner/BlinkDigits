@@ -62,3 +62,5 @@ If you want to blink out leading zeros, for example 023, simply state the number
 - **Not blinking** : Ensure the number is between 0 and 99999, and not negative.
 
 - **Wrong number of blinks** : do not add your own leading zero in code, as this denotes octal numbers i.e. do not use 023 (19 in octal), simply use 23 instead.
+
+- **Not all digits blinked** If you included the 'width' parameter, make sure it is set correctly.
