@@ -7,7 +7,7 @@ Display any number from 0 to 99999. For example 390 is blinked as
 - **9** brief flashes, <br>
 - **0** (one long flash).<br><br>
 After each digit there is a brief pause before the next digit is flashed.<br>
-When all digits in your number have been flashed, there is a longer pause, and then it all repeats if you want it to.
+When all digits in your number have been flashed, there is a longer pause, and then it all repeats - if you want it to.
 ## How can BlinkDigits improve my project?
 - Use as a heartbeat LED to indicate the status of the program.
 - Indicate an analog reading
@@ -39,9 +39,8 @@ void loop() {
     flasher1.blink(ledPin, LOW, 23);
 }
 ```
-The **examples** folder has some useful code.
 ### Leading zeros
-If you want to blink out leading zeros, for example 023, simply state the number of places you want - using the 'width' parameter - in this case 3.
+If you want to blink out leading zeros, for example 023, simply state the number of places you want - using the optional 'width' parameter - in this case 3.
 
 `flasher1.blink(ledPin, LOW, myNumber,3);`<br>
 ## Customisation
@@ -61,6 +60,6 @@ If you want to blink out leading zeros, for example 023, simply state the number
 
 - **Not blinking** : Ensure the number is between 0 and 99999, and not negative.
 
-- **Wrong number of blinks** : do not add your own leading zero in code, as this denotes octal numbers i.e. do not use 023 (19 in octal), simply use 23 instead.
+- **Wrong number of blinks** : do not add your own leading zero in code, as this denotes octal numbers i.e. do not use 023 (it will blink out 19), simply use 23 instead.
 
 - **Not all digits blinked** If you included the 'width' parameter, make sure it is set correctly.
