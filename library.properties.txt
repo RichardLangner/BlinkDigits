@@ -1,0 +1,10 @@
+name=BlinkDigits
+version=1.0.0
+author=Richard M Langner (Sheffield UK)
+maintainer=Richard M Langner
+sentence=Binks out numbers on a single LED
+paragraph=If all you have is an LED, this is a good way to convey data
+category=Other
+url=https://github.com/RichardLangner/BlinkDigits
+architectures=*
+includes=BlinkDigits.h

@@ -1,0 +1,8 @@
+# Syntax highlighting for the BlinkDigits library
+# Keyword           Category
+
+BlinkDigits         KEYWORD1    # Class name
+config              KEYWORD2    # Function name
+blink               KEYWORD2    # Function name
+HIGH                LITERAL1    # Constant
+LOW                 LITERAL1    # Constant
